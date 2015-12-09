@@ -3,6 +3,8 @@
 
 var input = "123 -> x, 456 -> y, x AND y -> d, x OR y -> e, x LSHIFT 2 -> f, y RSHIFT 2 -> g, NOT x -> h, NOT y -> i";
 
+var wires = [{identifier: "a", value:0}];
+
 function parseInstructions(s) {
   return s.split(",");
 }
@@ -12,12 +14,18 @@ function createListItem(s) {
   return s.split(" ");
 }
 
+function getWire(w) {
+}
+
+function setWire(w, value) {
+}
+
 function comprehendInstructions(s) {
   var instructions = parseInstructions(s);
   var list = [];
 
-  for (item in instructions){
-    var instruction_list = createListItem(instructions[item]);
+  for (var i = 0;i < instructions.length;i++){
+    var instruction_list = createListItem(instructions[i]);
     list.push(instruction_list);
   }
 
