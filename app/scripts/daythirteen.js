@@ -66,14 +66,11 @@ function permute(input) {
 function calculateHappy(people,lookup){
 
   var sum = 0;
-  var smallest = 0;
 
   var abc = people[0] + people[people.length-1];
   sum += lookup[abc];
 
-  if (lookup[abc] < smallest) {
-    smallest = lookup[abc];
-  }
+   var smallest = lookup[abc];
 
   for (var i = 0, l = people.length -1; i < l; i++ ){
     //find the smallest negative sum here and remove it, which represents me blocking people who hate each other at the table
@@ -82,12 +79,18 @@ function calculateHappy(people,lookup){
     if(lookup[key] < smallest) {
      smallest = lookup[key];
     }
-
     sum += lookup[key];
-
   }
 
-  return sum + smallest;
+  console.log(sum, Math.abs(smallest), sum + Math.abs(smallest));
+
+  if(smallest > 0) {
+    return sum - Math.abs(smallest);
+  } else {
+    return sum + Math.abs(smallest);
+  }
+
+  //return sum;
 }
 
 Array.max = function( array ){
@@ -110,10 +113,15 @@ function getHappy(input) {
     var total = calculateHappy(permutations[i],lookup);
     combinations.push(total);
   }
+  console.log(combinations);
 
   return Array.max(combinations);
 }
 
 var input = document.getElementById("input").innerHTML;
+var people = ["Alice","Bob","Carol","David","Eric","Frank","George","Mallory"];
+var list = getInstructions(input);
+
+console.log(calculateHappy(people,list));
 
 console.log(getHappy());
