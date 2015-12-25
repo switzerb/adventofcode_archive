@@ -3,35 +3,27 @@ var containers = [33, 14, 18, 20, 45, 35, 16, 35, 1, 13, 18, 13, 50, 44, 48, 6, 
 var testContainers = [20, 15, 10, 5, 5];
 var combos = [];
 
-function fillContainers(used,available,target) {
-
+function fillContainers(available,remaining) {
   debugger
-  var remaining = target - add(used);
+  var count = 0;
 
-  for (var i = 0; i < available.length; i++){
+  for (var i = 0; i < available.length; i++) {
 
     var container = available[i];
 
-    if(container <= remaining) {
+      if (container == remaining) {
+        count++;
+      } else if (container > remaining) {
+          //I don't think we need to do anything else. uncertain
+      } else if (container < remaining) {
 
-      var combo = used.slice();
-      combo.push(container);
-
-      if (container == target) {
-        combos.push(combo);
-        return combo;
-
-      } else {
-
-        available.splice(i, 1);
-        available.forEach(fillContainers(used,available,target));
+        count += fillContainers(available.slice(i+1),remaining - container);
 
       }
 
-    }
-
   }
 
+  return count;
 }
 
 function add(used) {
@@ -46,8 +38,7 @@ function add(used) {
 
 function getCount(containers,target){
 
-  var used = [];
-  var combinations = fillContainers(used,containers,target);
+  var combinations = fillContainers(containers,target);
 
   return combinations;
 }
