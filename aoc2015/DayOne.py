@@ -1,0 +1,3 @@
+
+class DayOne:
+    pass
