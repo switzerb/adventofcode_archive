@@ -11,8 +11,7 @@ def get_input():
     fh = open("input.txt")
     input = fh.read().strip()
     fh.close()
-    return convert(list(input))
-
+    return convert(input)
 
 def convert(data):
     return list(map(lambda x: int(x), data))
@@ -29,8 +28,9 @@ def pairwise(puzzle_input):
 
 def compare(iterator):
     def prune(x):
-        if x[0] == x[1]:
-            return int(x[0])
+        prev, current = x
+        if prev == current:
+            return int(current)
         else:
             return 0
     return map(prune, iterator)
@@ -52,9 +52,6 @@ def ncycles(iterable, n):
     return itertools.chain.from_iterable(itertools.repeat(tuple(iterable), n))
 
 
-print(list(ncycles('1234', 2)))
-
-
 def get_match(i):
     index, num = i
 
@@ -63,32 +60,21 @@ def get_match(i):
 
     # this is also bad
     halfway = get_halfway(data)
-
     match = halfway + int(index)
+    cycle_data = list(ncycles(data, 2))
 
-    if match > len(data):
-        # the length the string subtract the index, then subtract that from halfway and start count from beginning
-        steps_to_end = (len(data) - 1) - index
-        steps = halfway - steps_to_end - 1
-        if data[steps] == data[index]:
-            return int(data[index])
-        else:
-            return 1
+    if num == cycle_data[match]:
+        return num
     else:
-        if int(data[match - 1]) == int(data[index]):
-            return int(data[index])
-        else:
-            return 0
-
+        return 0
 
 
 def part_two(puzzle_input):
     return functools.reduce(lambda a, i: a + i, map(get_match, enumerate(puzzle_input)))
 
 
-
 def get_encouragement():
     return "You can do this."
 
 
-# print(list(halfway_pairwise(get_input())))
+print(part_two(get_input()))

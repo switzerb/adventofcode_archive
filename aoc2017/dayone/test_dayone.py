@@ -49,6 +49,6 @@ class TestDayOne(unittest.TestCase):
         self.assertEqual(puzzle.part_two('12131415'), 4)
 
     def test_get_answer_part_two(self):
-        self.assertEqual(puzzle.part_two(puzzle.get_input()), 0)
+        self.assertEqual(puzzle.part_two(puzzle.get_input()), 1194)
 
 
