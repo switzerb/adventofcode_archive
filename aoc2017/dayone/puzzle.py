@@ -52,29 +52,47 @@ def ncycles(iterable, n):
     return itertools.chain.from_iterable(itertools.repeat(tuple(iterable), n))
 
 
-def get_match(i):
-    index, num = i
+# function that takes a list of numbers and matches them to their pair halfway around the list, looping. if the
+# number matches it's pair, return the number. otherwise return 0
+# list[num] -> list[num]
+def get_matches(data):
+    def get_match(i):
+        index, num = i
 
-    # this is bad
-    data = get_input()
+        # this is bad
+        data = get_input()
 
-    # this is also bad
-    halfway = get_halfway(data)
-    match = halfway + int(index)
-    cycle_data = list(ncycles(data, 2))
+        # this is also bad
+        halfway = get_halfway(data)
+        match = halfway + int(index)
+        cycle_data = list(ncycles(data, 2))
 
-    if num == cycle_data[match]:
-        return num
-    else:
-        return 0
+        if num == cycle_data[match]:
+            return num
+        else:
+            return 0
+
+    matched_list = map(get_match, enumerate(data))
+    return matched_list
 
 
+# function that sums the numbers in a list of matches numbers. this is the answer to our puzzle
+# list[num] -> int
 def part_two(puzzle_input):
-    return functools.reduce(lambda a, i: a + i, map(get_match, enumerate(puzzle_input)))
+    return functools.reduce(lambda a, i: a + i, get_matches(puzzle_input))
 
 
 def get_encouragement():
     return "You can do this."
 
 
-print(part_two(get_input()))
+def play(a):
+    def curry(b):
+        print(b)
+    print(a)
+    return curry
+
+
+play("hello")("world")
+
+# print(part_two(get_input()))
