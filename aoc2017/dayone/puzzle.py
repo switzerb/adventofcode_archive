@@ -14,6 +14,8 @@ def get_input():
     return convert(input)
 
 
+# converts a list of strings into a list of integers
+# list -> list
 def convert(data):
     return list(map(lambda x: int(x), data))
 
@@ -27,6 +29,8 @@ def pairwise(puzzle_input):
     return zip(a, b)
 
 
+# returns a list of integers that represents all the matches in a list
+# list[int] -> list[int]
 def compare(iterator):
     def prune(x):
         prev, current = x
@@ -37,6 +41,8 @@ def compare(iterator):
     return map(prune, iterator)
 
 
+# returns the total sum of all integers that match the next integer in a list. answer to the first part of the puzzle
+# list -> int
 def part_one(puzzle_input):
     total = functools.reduce(lambda a, i: a + i, compare(pairwise(puzzle_input)))
     if puzzle_input[0] == puzzle_input[-1]:
@@ -44,16 +50,19 @@ def part_one(puzzle_input):
     return total
 
 
+# returns half the length of a list
+# list -> int
 def get_halfway(data):
     return int(len(data) / 2)
 
 
+# returns the sequence elements n times
+# iter -> iter
 def ncycles(iterable, n):
-    "Returns the sequence elements n times"
     return itertools.chain.from_iterable(itertools.repeat(tuple(iterable), n))
 
 
-# function that takes a list of numbers and matches them to their pair halfway around the list, looping. if the
+# takes a list of numbers and matches them to their pair halfway around the list, looping. if the
 # number matches it's pair, return the number. otherwise return 0
 # list[num] -> list[num]
 def get_matches(data):
@@ -78,17 +87,11 @@ def part_two(puzzle_input):
     return functools.reduce(lambda a, i: a + i, get_matches(puzzle_input))
 
 
+# my version of hello world: it takes nihilism and despair and returns encouragement
+# none -> string
 def get_encouragement():
     return "You can do this."
 
 
-def play(data):
-    def curry(b):
-        return int(b)
-    return map(curry, data)
-
-
-# print(list(play(['1', '2', '3', '4', '5'])))
-
-
-print(part_two(get_input()))
+print("Part One Answer: ", part_one(get_input()))
+print("Part Two Answer: ", part_two(get_input()))
