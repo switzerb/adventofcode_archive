@@ -1,8 +1,8 @@
 import unittest
-import aoc2017.dayzero.dayzero as do
+import aoc2017.dayzero.puzzle as puzzle
 
 
 class TestDayZero(unittest.TestCase):
 
-    def test_hello(self):
-        self.assertEqual(do.get_hello(), "hello, barney!!")
+    def test_get_encouragement(self):
+        self.assertEqual(puzzle.get_encouragement(), "You can do this.")
