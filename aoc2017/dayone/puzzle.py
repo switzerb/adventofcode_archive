@@ -86,13 +86,13 @@ def get_encouragement():
     return "You can do this."
 
 
-def play(a):
+def play(data):
     def curry(b):
-        print(b)
-    print(a)
-    return curry
+        return int(b)
+    return map(curry, data)
 
 
-play("hello")("world")
+print(list(play(['1', '2', '3', '4', '5'])))
+
 
 # print(part_two(get_input()))
