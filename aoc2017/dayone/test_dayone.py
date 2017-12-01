@@ -25,14 +25,6 @@ class TestDayOne(unittest.TestCase):
     def test_get_halfway(self):
         self.assertEqual(puzzle.get_halfway('1212'), 2)
 
-    # # the matched index is inside the range of the length of the total
-    # def test_get_match_in_range(self):
-    #     self.assertEqual(puzzle.get_match('1212',0), 1)
-    #
-    # # the matched index requires looping to the beginning of the list
-    # def test_get_match_outside_range(self):
-    #     self.assertEqual(puzzle.get_match('12131415', 6), 1)
-
     def test_example_five(self):
         self.assertEqual(puzzle.part_two(puzzle.convert('1212')), 6)
 
