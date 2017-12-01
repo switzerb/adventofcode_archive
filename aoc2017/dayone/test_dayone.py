@@ -34,19 +34,19 @@ class TestDayOne(unittest.TestCase):
     #     self.assertEqual(puzzle.get_match('12131415', 6), 1)
 
     def test_example_five(self):
-        self.assertEqual(puzzle.part_two('1212'), 6)
+        self.assertEqual(puzzle.part_two(puzzle.convert('1212')), 6)
 
     def test_example_six(self):
-        self.assertEqual(puzzle.part_two('1221'), 0)
+        self.assertEqual(puzzle.part_two(puzzle.convert('1221')), 0)
 
     def test_example_seven(self):
-        self.assertEqual(puzzle.part_two('123425'), 4)
+        self.assertEqual(puzzle.part_two(puzzle.convert('123425')), 4)
 
     def test_example_eight(self):
-        self.assertEqual(puzzle.part_two('123123'), 12)
+        self.assertEqual(puzzle.part_two(puzzle.convert('123123')), 12)
 
     def test_example_nine(self):
-        self.assertEqual(puzzle.part_two('12131415'), 4)
+        self.assertEqual(puzzle.part_two(puzzle.convert('12131415')), 4)
 
     def test_get_answer_part_two(self):
         self.assertEqual(puzzle.part_two(puzzle.get_input()), 1194)

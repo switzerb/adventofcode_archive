@@ -13,6 +13,7 @@ def get_input():
     fh.close()
     return convert(input)
 
+
 def convert(data):
     return list(map(lambda x: int(x), data))
 
@@ -56,24 +57,19 @@ def ncycles(iterable, n):
 # number matches it's pair, return the number. otherwise return 0
 # list[num] -> list[num]
 def get_matches(data):
+    halfway = get_halfway(data)
+    cycle_data = list(ncycles(data, 2))
+
     def get_match(i):
         index, num = i
-
-        # this is bad
-        data = get_input()
-
-        # this is also bad
-        halfway = get_halfway(data)
         match = halfway + int(index)
-        cycle_data = list(ncycles(data, 2))
 
         if num == cycle_data[match]:
             return num
         else:
             return 0
 
-    matched_list = map(get_match, enumerate(data))
-    return matched_list
+    return map(get_match, enumerate(data))
 
 
 # function that sums the numbers in a list of matches numbers. this is the answer to our puzzle
@@ -92,7 +88,7 @@ def play(data):
     return map(curry, data)
 
 
-print(list(play(['1', '2', '3', '4', '5'])))
+# print(list(play(['1', '2', '3', '4', '5'])))
 
 
-# print(part_two(get_input()))
+print(part_two(get_input()))
