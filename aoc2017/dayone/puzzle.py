@@ -11,7 +11,11 @@ def get_input():
     fh = open("input.txt")
     input = fh.read().strip()
     fh.close()
-    return list(input)
+    return convert(list(input))
+
+
+def convert(data):
+    return list(map(lambda x: int(x), data))
 
 
 # take list of integers and pair them into tuples for comparison
@@ -39,12 +43,52 @@ def part_one(puzzle_input):
     return total
 
 
-def part_two():
-    pass
+def get_halfway(data):
+    return int(len(data) / 2)
+
+
+def ncycles(iterable, n):
+    "Returns the sequence elements n times"
+    return itertools.chain.from_iterable(itertools.repeat(tuple(iterable), n))
+
+
+print(list(ncycles('1234', 2)))
+
+
+def get_match(i):
+    index, num = i
+
+    # this is bad
+    data = get_input()
+
+    # this is also bad
+    halfway = get_halfway(data)
+
+    match = halfway + int(index)
+
+    if match > len(data):
+        # the length the string subtract the index, then subtract that from halfway and start count from beginning
+        steps_to_end = (len(data) - 1) - index
+        steps = halfway - steps_to_end - 1
+        if data[steps] == data[index]:
+            return int(data[index])
+        else:
+            return 1
+    else:
+        if int(data[match - 1]) == int(data[index]):
+            return int(data[index])
+        else:
+            return 0
+
+
+
+def part_two(puzzle_input):
+    return functools.reduce(lambda a, i: a + i, map(get_match, enumerate(puzzle_input)))
+
 
 
 def get_encouragement():
     return "You can do this."
 
 
-print(part_one(get_input()))
+# print(list(halfway_pairwise(get_input())))
