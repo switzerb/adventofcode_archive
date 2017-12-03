@@ -4,9 +4,9 @@
 # opens a file and reads into a return value
 def get_input():
     fh = open("input.txt")
-    input = fh.read().strip()
+    file_input = fh.read().strip()
     fh.close()
-    return input
+    return file_input
 
 
 # answer to puzzle part one
