@@ -1,5 +1,14 @@
 
 
+# read in unique puzzle text
+# opens a file and reads into a return value
+def get_input():
+    fh = open("input.txt")
+    input = fh.read().strip()
+    fh.close()
+    return input
+
+
 # answer to puzzle part one
 # puzzle -> answer
 def part_one():
