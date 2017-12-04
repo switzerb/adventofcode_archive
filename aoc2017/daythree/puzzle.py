@@ -1,3 +1,5 @@
+# --- Day 3: Spiral Memory ---
+# http://adventofcode.com/2017/day/3
 
 
 # read in unique puzzle text
@@ -11,8 +13,8 @@ def get_input():
 
 # answer to puzzle part one
 # puzzle -> answer
-def part_one():
-    pass
+def part_one(puzzle_input):
+    return puzzle_input
 
 
 # answer to puzzle part two
@@ -30,4 +32,4 @@ def get_encouragement():
     return puzzle_input
 
 
-print(get_encouragement())
+print(part_one(get_input()))
