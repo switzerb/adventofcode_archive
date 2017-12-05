@@ -32,7 +32,10 @@ def check_validity_part_one(passcode):
 # answer to puzzle part two
 # puzzle -> answer
 def check_validity_part_two(passcode):
-    return True
+    def is_anagram(pair):
+        a, b = pair
+        return sorted(a) == sorted(b)
+    return any(list(map(is_anagram, passcode)))
 
 
 part_one = get_answer(check_validity_part_one)
