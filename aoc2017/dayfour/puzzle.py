@@ -1,5 +1,4 @@
 import itertools
-import functools
 
 
 # read in unique puzzle text
@@ -19,13 +18,11 @@ def create_pairs(passcode):
     return list(itertools.combinations(passcode, 2))
 
 
-# answer to puzzle part one
-# puzzle -> answer
-def part_one(passcodes):
-    return len(list(filter(lambda x: not x, map(check_equality, map(create_pairs, passcodes)))))
+def get_answer(valid_pass):
+    return lambda passcodes: len(list(filter(lambda x: not x, map(valid_pass, map(create_pairs, passcodes)))))
 
 
-def check_equality(passcode):
+def check_validity_part_one(passcode):
     def is_equal(pair):
         a, b = pair
         return a == b
@@ -34,17 +31,13 @@ def check_equality(passcode):
 
 # answer to puzzle part two
 # puzzle -> answer
-def part_two():
-    pass
+def check_validity_part_two(passcode):
+    return True
 
 
-# my version of hello world: it takes nihilism and despair and returns encouragement
-# none -> string
-def get_encouragement():
-    fh = open("input.txt")
-    puzzle_input = fh.read().strip()
-    fh.close()
-    return puzzle_input
+part_one = get_answer(check_validity_part_one)
+part_two = get_answer(check_validity_part_two)
 
 
-print(part_one(get_input()))
+print("Answer to Part One: ", part_one(get_input()))
+print("Answer to Part Two: ", part_two(get_input()))
