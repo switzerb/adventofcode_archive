@@ -13,6 +13,21 @@ class TestDayFour(unittest.TestCase):
     def test_example_three(self):
         self.assertEqual(puzzle.part_one(puzzle.parse('aa bb cc dd aaa')), 1)
 
+    def test_example_four(self):
+        self.assertEqual(puzzle.part_two('abcde fghij'), 1)
+
+    def test_example_five(self):
+        self.assertEqual(puzzle.part_two('abcde xyz ecdab'), 0)
+
+    def test_example_six(self):
+        self.assertEqual(puzzle.part_two('a ab abc abd abf abj'), 1)
+
+    def test_example_seven(self):
+        self.assertEqual(puzzle.part_two('iiii oiii ooii oooi oooo'), 1)
+
+    def test_example_eight(self):
+        self.assertEqual(puzzle.part_two('oiii ioii iioi iiio'), 0)
+
     def test_parse(self):
         self.assertEqual(puzzle.parse('aa bb cc dd ee'), [['aa', 'bb', 'cc', 'dd', 'ee']])
 
