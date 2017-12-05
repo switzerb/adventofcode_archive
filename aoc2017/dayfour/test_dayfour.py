@@ -4,5 +4,5 @@ import aoc2017.dayfour.puzzle as puzzle
 
 class TestDayFour(unittest.TestCase):
 
-    def test_get_encouragement(self):
-        self.assertEqual(puzzle.get_encouragement(), "You can do this.")
+    def test_example_one(self):
+        self.assertEqual(puzzle.part_one(), "You can do this.")
