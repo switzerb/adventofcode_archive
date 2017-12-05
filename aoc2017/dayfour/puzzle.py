@@ -1,21 +1,28 @@
 import itertools
 import functools
 
+
 # read in unique puzzle text
 # opens a file and reads into a return value
 def get_input():
     fh = open("input.txt")
-    file_input = map(lambda x: x.split(' '), fh.read().strip().splitlines())
+    file_input = fh.read().strip()
     fh.close()
-    return file_input
+    return parse(file_input)
+
+
+def parse(file_input):
+    return list(map(lambda x: x.split(' '), file_input.splitlines()))
+
+
+def create_pairs(passcode):
+    return list(itertools.combinations(passcode, 2))
 
 
 # answer to puzzle part one
 # puzzle -> answer
 def part_one(passcodes):
-    split_passcodes = map(lambda x: list(itertools.combinations(x, 2)), passcodes)
-    convert_to_boolean = map(check_equality, split_passcodes)
-    return len(list(filter(lambda x: not x, convert_to_boolean)))
+    return len(list(filter(lambda x: not x, map(check_equality, map(create_pairs, passcodes)))))
 
 
 def check_equality(passcode):
