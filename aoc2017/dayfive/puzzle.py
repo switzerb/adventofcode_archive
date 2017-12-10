@@ -20,28 +20,25 @@ def parse(p_input):
     return list(map(lambda x: int(x), p_input.splitlines()))
 
 
-# answer to puzzle part one: get in a list of instructions and reduce until we "escape" the list -- meaning we are out of range on our list
-# the answer is the index value, which is the number of steps we've taken to get out of range
-# list -> index
-def part_one(p_input):
+def part_any(rule, p_input):
     answer = 0
     current = 0
+    i = 0
 
-    for i in range(0, 400000):
+    while True:
         try:
             temp = current
             current += p_input[current]
-            p_input[temp] += 1
+            p_input[temp] += rule(p_input[temp])
         except IndexError:
             answer = i
             break
+        i += 1
     return answer
 
 
-# answer to puzzle part two
-# puzzle -> answer
-def part_two():
-    pass
+part_one = part_any(lambda x: 1, parse(get_input()))
+part_two = part_any(lambda offset: -1 if offset >= 3 else 1, parse(get_input()))
 
-
-print(part_one(parse(get_input())))
+print(part_one)
+print(part_two)
