@@ -20,10 +20,11 @@ def parse(p_input):
     return list(map(lambda x: int(x), p_input.splitlines()))
 
 
-def part_any(rule, p_input):
+def part_any(rule, input):
     answer = 0
     current = 0
     i = 0
+    p_input = input[:]
 
     while True:
         try:
