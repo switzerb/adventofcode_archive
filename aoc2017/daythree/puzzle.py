@@ -1,9 +1,39 @@
 # --- Day 3: Spiral Memory ---
 # http://adventofcode.com/2017/day/3
 
+import functools
 
-# def draw_map():
-#     return list(map(lambda x: {'right': x, 'up': x, 'left': x+1, 'down': x+1}, range(1, 50)))
+def draw_grid():
+    # R1 U1 L2 D2 R3 U3 L4 D4 R5
+
+    def move(grid, count):
+        [current_x, current_y] = grid[len(grid) - 1]['square']
+        num = grid[count]['num']
+        steps = ['RIGHT', 'UP', 'LEFT', 'DOWN']
+        direction = steps[count % len(steps)]
+        increment = count
+
+        if count > 0:
+            if count % 2 == 0:
+                count = count - 1
+                print(count)
+            else:
+                print(count)
+
+        if direction == 'RIGHT':
+            current_y += increment
+        elif direction == 'UP':
+            current_x += increment
+        elif direction == 'LEFT':
+            current_x = current_x - increment
+        elif direction == 'DOWN':
+            current_y = current_y - increment
+
+        # print([current_x, current_y])
+        # print(" ")
+        num += 1
+        return grid + [{'num': num, 'square': [current_x, current_y]}]
+    return list(functools.reduce(move, range(0, 10), [{'num': 1, 'square': [0, 0]}]))
 
 
 # read in unique puzzle text
@@ -27,16 +57,7 @@ def part_two():
     pass
 
 
-# my version of hello world: it takes nihilism and despair and returns encouragement
-# none -> string
-def get_encouragement():
-    fh = open("input.txt")
-    puzzle_input = fh.read().strip()
-    fh.close()
-    return puzzle_input
-
-
-# print(part_one(get_input()))
+print(draw_grid())
 
 # 1 (0, 0)
 # 2 (1, 0)
