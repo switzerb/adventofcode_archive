@@ -2,38 +2,72 @@
 # http://adventofcode.com/2017/day/3
 
 import functools
+import copy
+
+
+def move_right(current):
+    return {'dir': 'RIGHT', 'num': current['num'], 'pos': [current['pos'][0] + 1, current['pos'][1]]}
+
+
+def move_left(current):
+    return {'dir': 'LEFT', 'num': current['num'], 'pos': [current['pos'][0] - 1, current['pos'][1]]}
+
+
+def move_up(current):
+    return {'dir': 'UP', 'num': current['num'], 'pos': [current['pos'][0], current['pos'][1] + 1]}
+
+
+def move_down(current):
+    return {'dir': 'DOWN', 'num': current['num'], 'pos': [current['pos'][0], current['pos'][1] - 1]}
+
+
+def up_available(current, grid):
+    return move_up(current) not in grid
+
+
+def left_available(current, grid):
+    return move_left(current) not in grid
+
+
+def down_available(current, grid):
+    return move_down(current) not in grid
+
+
+def right_available(current, grid):
+    return move_right(current) not in grid
+
 
 def draw_grid():
+
     # R1 U1 L2 D2 R3 U3 L4 D4 R5
 
     def move(grid, count):
-        [current_x, current_y] = grid[len(grid) - 1]['square']
-        num = grid[count]['num']
-        steps = ['RIGHT', 'UP', 'LEFT', 'DOWN']
-        direction = steps[count % len(steps)]
-        increment = count
+        curr = copy.copy(grid[len(grid) - 1])
 
-        if count > 0:
-            if count % 2 == 0:
-                count = count - 1
-                print(count)
-            else:
-                print(count)
+        if count == 0:
+            return grid + [{'dir': 'RIGHT', 'num': 2, 'pos': [1, 0]}]
 
-        if direction == 'RIGHT':
-            current_y += increment
-        elif direction == 'UP':
-            current_x += increment
-        elif direction == 'LEFT':
-            current_x = current_x - increment
-        elif direction == 'DOWN':
-            current_y = current_y - increment
+        if curr['dir'] == 'RIGHT':
+            # if no box up, go up, otherwise keep going right
+            curr = copy.copy(move_up(curr) if up_available(curr, grid) else move_right(curr))
 
-        # print([current_x, current_y])
-        # print(" ")
-        num += 1
-        return grid + [{'num': num, 'square': [current_x, current_y]}]
-    return list(functools.reduce(move, range(0, 10), [{'num': 1, 'square': [0, 0]}]))
+        elif curr['dir'] == 'UP':
+            # if no box left, go left, otherwise keep going up
+            curr = copy.copy(move_left(curr) if left_available(curr, grid) else move_up(curr))
+
+        elif curr['dir'] == 'LEFT':
+            # if no box down, go down, otherwise keep going left
+            curr = copy.copy(move_down(curr) if down_available(curr, grid) else move_left(curr))
+
+        elif curr['dir'] == 'DOWN':
+            # if no box right, go right, otherwise keep going down
+            curr = copy.copy(move_right(curr) if right_available(curr, grid) else move_down(curr))
+
+        curr['num'] += 1
+        print(grid + [curr])
+        return grid + [curr]
+
+    return list(functools.reduce(move, range(0, 10), [{'dir': 'RIGHT', 'num': 1, 'pos': [0, 0]}]))
 
 
 # read in unique puzzle text
