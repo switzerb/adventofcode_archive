@@ -1,0 +1,5 @@
+task default: %w[example]
+
+task :example do
+  puts "Hello, World!"
+end
