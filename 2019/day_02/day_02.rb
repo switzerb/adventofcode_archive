@@ -4,6 +4,7 @@
 
   def initialize(input)
     @program = input.map(&:to_i)
+    @reset = input.map(&:to_i)
     @count = 0
   end
 
@@ -29,14 +30,16 @@
     end
   end
 
-  def part_two
-    (0..99).each do |p1|
-      (0..99).each do |p2|
-        # program.run -> need to reset each time to
-        # input values
-        #
-        # if part_one matches, return p1 and p2
-       puts "p1 " + p1.to_s + ", p2 " + p2.to_s
+  def part_two(target)
+    (0..15).each do |p1|
+     (0..15).each do |p2|
+        @program = @reset.dup
+        @program[1] = p1
+        @program[2] = p2
+        run
+        if part_one == target
+          return 100 * p1 + p2
+        end
       end
     end
   end

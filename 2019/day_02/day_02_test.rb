@@ -37,4 +37,31 @@
      program.run
      assert_equal [30,1,1,4,2,5,6,0,99], program.finish
    end
+
+   def test_program_5
+    file = File.open("input.txt")
+    input = file.read
+    input = input.split(",")
+    input = input.map(&:to_i)
+
+    input[1] = 12
+    input[2] = 2
+
+    program = Intcode.new(input)
+    program.run
+
+    assert_equal 3790645, program.part_one
+   end
+
+   def test_program_6
+    file = File.open("input.txt")
+    input = file.read
+    input = input.split(",")
+    input = input.map(&:to_i)
+
+    program = Intcode.new(input)
+
+    assert_equal 1202, program.part_two(3790645)
+   end
+
 end

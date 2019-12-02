@@ -14,4 +14,10 @@ program = Intcode.new(input)
 program.run
 puts "part one: " + program.part_one.to_s
 
-program.part_two
+file = File.open("input.txt")
+inp = file.read
+inp = inp.split(",")
+inp = inp.map(&:to_i)
+
+pm = Intcode.new(inp)
+puts pm.part_two(19690720)
