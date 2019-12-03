@@ -3,5 +3,6 @@ dist
 .tmp
 bower_components
 *.iml
+*.swp
 /.idea
 .DS_Store
