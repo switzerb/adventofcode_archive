@@ -5,12 +5,14 @@
   def initialize(input)
     @program = input.map(&:to_i)
     @reset = input.map(&:to_i)
-    @count = 0
   end
 
   def run
+    @count = 0
     until @count >= @program.length do
-     opcodes = @program.slice(@count, @count + 4) 
+     opcodes = @program.slice(@count, 4)
+     puts opcodes.to_s
+
      code = opcodes[0]
      p1 = opcodes[1]
      p2 = opcodes[2]
@@ -31,13 +33,13 @@
   end
 
   def part_two(target)
-    (0..15).each do |p1|
-     (0..15).each do |p2|
+    (0..99).each do |p1|
+     (0..99).each do |p2|
         @program = @reset.dup
         @program[1] = p1
         @program[2] = p2
         run
-        if part_one == target
+        if @program[0] == target
           return 100 * p1 + p2
         end
       end
