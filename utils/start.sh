@@ -20,13 +20,14 @@ if [ ${#day} -eq 1 ]; then
     day="0$day"
 fi
 
-root="day$day"
+root="day_$day"
 mkdir ${root}
 
 cat << EOF > ${root}/input.txt
 EOF
 
 cat << EOF > ${root}/${root}.rb
+#!/usr/bin/env ruby
  class Solver
   def hello
     "hello, world!"
@@ -35,6 +36,7 @@ cat << EOF > ${root}/${root}.rb
 EOF
 
 cat << EOF > ${root}/${root}_test.rb
+#!/usr/bin/env ruby
   begin
     gem 'minitest', '>=5.0.0'
     require 'minitest/autorun'
