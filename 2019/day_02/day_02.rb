@@ -2,24 +2,32 @@
 # https://adventofcode.com/2019/day/2  #
  class Intcode
 
-  def initialize(input)
-    @program = input.map(&:to_i)
-    @reset = input.map(&:to_i)
+  def initialize
+  end
+
+  def load(program)
+    @program = program.dup
+    @reset = program.dup
+  end
+
+  def run_with(noun, verb)
+    @program[1] = noun
+    @program[2] = verb
+    run
+    @program[0]
   end
 
   def run
     @count = 0
     until @count >= @program.length do
      opcodes = @program.slice(@count, 4)
-     puts opcodes.to_s
-
      code = opcodes[0]
      p1 = opcodes[1]
      p2 = opcodes[2]
      w = opcodes[3] 
      
      return if code == 99
-     #raise Error unless (op == 1 || op == 2 || op == 99)
+     # raise "" unless (code == 1 || code == 2 || code == 99)
 
      if code == 1
       value = @program[p1] + @program[p2]
@@ -30,24 +38,6 @@
      @program[w] = value
      @count += 4
     end
-  end
-
-  def part_two(target)
-    (0..99).each do |p1|
-     (0..99).each do |p2|
-        @program = @reset.dup
-        @program[1] = p1
-        @program[2] = p2
-        run
-        if @program[0] == target
-          return 100 * p1 + p2
-        end
-      end
-    end
-  end
-
-  def part_one
-    @program[0]
   end
 
   def finish
