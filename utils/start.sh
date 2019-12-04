@@ -28,6 +28,7 @@ EOF
 
 cat << EOF > ${root}/${root}.rb
 #!/usr/bin/env ruby
+
  class Solver
   def hello
     "hello, world!"
@@ -37,6 +38,7 @@ EOF
 
 cat << EOF > ${root}/${root}_test.rb
 #!/usr/bin/env ruby
+
   begin
     gem 'minitest', '>=5.0.0'
     require 'minitest/autorun'
@@ -58,6 +60,8 @@ cat << EOF > ${root}/${root}_test.rb
  end
 EOF
 
+chmod +x ${root}/${root}.rb
+chmod +x ${root}/${root}_test.rb
 
 echo "Day ${day} created!"
 
