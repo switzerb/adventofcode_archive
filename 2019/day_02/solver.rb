@@ -1,13 +1,13 @@
 #!/usr/bin/env ruby
 
-require_relative 'day_02'
+require_relative '../lib/computer'
 
 file = File.open("input.txt")
 input = file.read
 input = input.split(",")
 input = input.map(&:to_i)
 
-program = Intcode.new
+program = Computer.new
 program.load(input)
 puts "part one: #{program.run_with(12,2)}"
 
