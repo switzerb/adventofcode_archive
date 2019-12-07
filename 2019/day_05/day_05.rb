@@ -1,7 +1,4 @@
 #!/usr/bin/env ruby
 
- class Solver
-  def hello
-    "hello, world!"
-  end
- end
+require_relative '../lib/computer'
+
