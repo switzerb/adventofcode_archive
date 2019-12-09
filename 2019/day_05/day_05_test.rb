@@ -12,7 +12,6 @@
 
  class SolverTest < Minitest::Test
    def test_opcode_3
-		 skip
 		 computer = Computer.new
      computer.load([1002,4,3,4,33])
      computer.run
@@ -20,7 +19,6 @@
    end
 
 	 def test_get_code
-		 skip
 		 computer = Computer.new
 		 assert_equal 2, computer.get_code(1002)
 		 assert_equal 3, computer.get_code(3)
@@ -29,15 +27,13 @@
 	 end
 
 	 def test_get_mode
-		skip
-		 computer = Computer.new
+		computer = Computer.new
 		assert_equal 0, computer.get_mode(3,1)
 		assert_equal 1, computer.get_mode(1101, 1)
 		assert_equal 1, computer.get_mode(1101, 2)
 	 end
 
 	 def test_negative_values
-		 skip
 		 computer = Computer.new
 		 computer.load([1101,100,-1,4,0])
 		 computer.run
@@ -52,7 +48,7 @@
 		 input = input.map(&:to_i)
 		 computer.load(input)
 		 computer.run
-		 assert_equal [], computer.finish
+		 assert_equal 11933517, computer.diagnostic
 	end
 
  end
