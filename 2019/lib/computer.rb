@@ -4,9 +4,11 @@ require 'pry'
 
  class Computer
 
-  def initialize(input)
+  def initialize(input=1, phase=0)
 		@diagnostic = 0
 		@in = input
+		@phase = phase
+		@use_phase = true
   end
 
   def load(program)
@@ -38,9 +40,13 @@ require 'pry'
 	end
 
   def run
+		raise Error "You do not have a program to run" if @program.nil?
     @ip = 0
     until @ip >= @program.length do
 			# binding.pry
+			
+			#i = Instruction.new(@program[@ip])
+
 			instructions = @program[@ip]
       code = get_code(instructions)
 
@@ -64,7 +70,12 @@ require 'pry'
        opcode_2(p1, p2, address)
        @ip += 4
      elsif code == 3
-      opcode_3(@in, p1)
+			 if @use_phase
+				opcode_3(@phase, p1)
+				@use_phase = false
+			 else
+			  opcode_3(@in, p1)
+		   end		
       @ip += 2
      elsif code == 4
       opcode_4(p1)
@@ -83,6 +94,7 @@ require 'pry'
 			# puts "count #{@ip}"
     end
   end
+
 
   def opcode_1(p1, p2, address)
     v1 = p1.mode == 0 ? @program[p1.value] : p1.value
@@ -103,7 +115,7 @@ require 'pry'
   end
 
   def opcode_4(p1)
-		# puts "output: #{@program[p1.value]}"
+		puts "output: #{@program[p1.value]}"
 		@diagnostic = @program[p1.value]
   end
 

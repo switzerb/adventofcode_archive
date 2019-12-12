@@ -11,11 +11,6 @@
   end
 
 class SolverTest < Minitest::Test
-  def setup
-    lines = File.readlines('input.txt', chomp: true)
-    input = lines.map(&:to_i)
-    @rocket = Rocket.new(input)
-  end
 
   def test_to_fuel
     assert_equal 2, 12.to_fuel
@@ -42,11 +37,17 @@ class SolverTest < Minitest::Test
   end
 
   def test_part_1
-   assert_equal 3550236, @rocket.part_one
+		lines = File.readlines(__dir__ + "/input.txt", chomp: true)
+    input = lines.map(&:to_i)
+    rocket = Rocket.new(input)
+   assert_equal 3550236, rocket.part_one
   end
 
   def test_part_2
-    assert_equal 5322455, @rocket.part_two
+		lines = File.readlines(__dir__ + "/input.txt", chomp: true)
+    input = lines.map(&:to_i)
+    rocket = Rocket.new(input)
+    assert_equal 5322455, rocket.part_two
   end
 
 end

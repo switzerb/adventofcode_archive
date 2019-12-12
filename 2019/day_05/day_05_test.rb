@@ -10,7 +10,7 @@
     exit 1
   end
 
- class SolverTest < Minitest::Test
+ class Day05Test < Minitest::Test
    def test_opcode_3
 		 computer = Computer.new(1)
      computer.load([1002,4,3,4,33])
@@ -18,20 +18,6 @@
      assert_equal [1002,4,3,4,99], computer.finish
    end
 
-	 def test_get_code
-		 computer = Computer.new(1)
-		 assert_equal 2, computer.get_code(1002)
-		 assert_equal 3, computer.get_code(3)
-		 assert_equal 1, computer.get_code(10101)
-		 assert_equal 99, computer.get_code(10099)
-	 end
-
-	 def test_get_mode
-		computer = Computer.new(1)
-		assert_equal 0, computer.get_mode(3,1)
-		assert_equal 1, computer.get_mode(1101, 1)
-		assert_equal 1, computer.get_mode(1101, 2)
-	 end
 
 	 def test_negative_values
 		 computer = Computer.new(1)
@@ -42,7 +28,7 @@
 
 	 def test_part_one
 		 computer = Computer.new(1)
-		 file = File.open('input.txt')
+		 file = File.open(__dir__ + "/input.txt")
 		 input = file.read
 		 input = input.split(",")
 		 input = input.map(&:to_i)
@@ -88,12 +74,12 @@
 
 	def test_part_two
 		 computer = Computer.new(5)
-		 file = File.open('input.txt')
+		 file = File.open(__dir__ + "/input.txt")
 		 input = file.read
 		 input = input.split(",")
 		 input = input.map(&:to_i)
 		 computer.load(input)
 		 computer.run
-		 assert_equal 0, computer.diagnostic
+		 assert_equal 10428568, computer.diagnostic
 	end
  end

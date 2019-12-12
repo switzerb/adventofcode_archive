@@ -71,13 +71,14 @@
   def manhattan_distance
     least = 0;
     dists = @intersections.map { |point| point[0].abs + point[1].abs}
+		puts dists
     dists.min
   end
 
   def min_distance
     sA = @wireA.find_index(@intersections[0])
     sB = @wireB.find_index(@intersections[0])
-    sA + sB
+    sA + sB + 2
   end
 
  end

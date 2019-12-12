@@ -8,7 +8,7 @@
 		 @orbits["B"] = "COM"
 		 @orbits["C"] = "B"
 		 @orbits["D"] = "C"
-		 @orbits["G"] = "B":
+		 @orbits["G"] = "B"
 	 end
 
 	 def direct(key)

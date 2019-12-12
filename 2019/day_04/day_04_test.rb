@@ -11,10 +11,5 @@
 
  class SolverTest < Minitest::Test
    def setup
-     @day = Solver.new
-   end
-
-   def test_hello
-     assert_equal "hello, world!", @day.hello
    end
  end

@@ -8,20 +8,14 @@
     exit 1
   end
 
- class SolverTest < Minitest::Test
+ class Day02Test < Minitest::Test
    def setup
-    file = File.open("input.txt")
+		 file = File.open(__dir__ + "/input.txt")
     @input = file.read
     @input = @input.split(",")
     @input = @input.map(&:to_i)
    end
 
-   def test_program_1
-     program = Computer.new
-     program.load([1,0,0,0,99])
-     program.run
-     assert_equal [2,0,0,0,99], program.finish
-   end
 
    def test_program_2
      program = Computer.new
