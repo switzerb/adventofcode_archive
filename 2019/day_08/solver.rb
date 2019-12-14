@@ -9,7 +9,14 @@ data = input.map(&:to_i)
 
 sif = SIF.new(data, 25, 6)
 puts sif.part_one
-puts sif.part_two
+image = sif.part_two
+
+image.each_slice(25) do |line|
+	puts line.join
+end
+
+
+
 
 
 

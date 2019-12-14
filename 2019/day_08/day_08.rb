@@ -7,10 +7,9 @@
 		 @width = width
 		 @height = height
 		 @layers = []
-		 @image = 
 	 end
 
-	 def part_one
+	 def process
 		 layer = 0
 		 i = 0
 		 @data.each_slice(@width) do |a|
@@ -19,7 +18,11 @@
 			 layer += 1 if i % @height == @height - 1
 			 i += 1
 		 end
+		 @layers
+	 end
 
+	 def part_one
+		process
 		min = 1000
 		idx = 0
 
@@ -37,17 +40,26 @@
 		ones.length * twos.length
 	 end
 
-	 def part_two
-		 layer = 0
-		 i = 0
-		 @data.each_slice(@width) do |a|
-		 	 # puts a.to_s
-			 @image[layer] = [] if @image[layer].nil?
-			 @image[layer] << a
-			 layer += 1 if i % @height == @height - 1
-			 i += 1
+	 def get_value(layer)
+		 layer.each do |p|
+		  return "#" if p == 1
+			return "." if p == 0
 		 end
-		 @image[0][0].to_s
+	 end
+
+	 def part_two
+		 process
+		 image = Array.new
+		 line = @width * @height
+
+		 (0..line).each do |c|
+			 stack = Array.new
+			 @layers.each_with_index do |layer,r|
+				 stack << @layers[r][c]
+			 end
+			 image[c] = get_value(stack)
+		 end
+		 image
 	 end
 
  end
