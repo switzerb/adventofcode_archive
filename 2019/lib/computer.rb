@@ -2,6 +2,7 @@
 # https://adventofcode.com/2019/day/2  #
 require 'pry'
 require_relative 'intcode'
+require 'fiber'
 
  class Computer
 	 attr_accessor :ip, :program, :stdin, :stdout, :mode
@@ -17,6 +18,7 @@ require_relative 'intcode'
 	 end
 
 	 def get_in
+		 Fiber.yield if @stdin.empty?
 		 @stdin.shift
 	 end
 

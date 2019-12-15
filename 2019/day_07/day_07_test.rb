@@ -4,6 +4,7 @@
     gem 'minitest', '>=5.0.0'
     require 'minitest/autorun'
 		require_relative '../lib/computer'
+		require_relative 'amplifier'
   rescue Gem::LoadError => e
     puts "\nError:\n#{e.backtrace.first} #{e.message}"
     puts DATA.read
@@ -42,4 +43,12 @@
 
      assert_equal 844468, max
    end
+
+	 def test_day7_amp_1
+		phases = [9,8,7,6,5]
+		amp = Amplifier.new phases
+		amp.load([3,26,1001,26,-4,26,3,27,1002,27,2,27,1,27,26,27,4,27,1001,28,-1,28,1005,28,6,99,0,0,5])
+		amp.run
+		assert_equal 139629729, amp.to_thrusters
+	 end
  end
