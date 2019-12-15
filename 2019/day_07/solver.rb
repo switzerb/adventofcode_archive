@@ -12,17 +12,18 @@ program = program.map(&:to_i)
 max = 0
 
 phase_sequences.each do |seq|
-	puts seq.to_s
-	input = 0
+	signal = 0
 	seq.each do |p|
-		amplifier = Computer.new(input,p)
-		amplifier.load(program)
-		amplifier.run
-		input = amplifier.diagnostic
+		amp = Computer.new
+		amp = amp.set_in(p)
+		amp = amp.set_in(signal)
+		amp.load(program)
+		amp.run
+		signal = amplifier.get_out
 	end
 
-	if input > max
-		max = input
+	if signal > max
+		max = signal
 	end
 end
 
