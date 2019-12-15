@@ -40,7 +40,6 @@ require_relative 'intcode'
 	 end
 
 	 def get_param
-		 #binding.pry
 		 temp = @program[@ip]
 		 mode = @mode % 10
 		 @mode = @mode / 10
@@ -93,35 +92,5 @@ require_relative 'intcode'
 		 @ip += 1
 	 end
  end
-
- class Machine
-
-  def initialize(input=1, phase=0)
-		@diagnostic = 0
-		@in = input
-		@phase = phase
-		@use_phase = true
-  end
-
-
-  def run
-		raise Error "You do not have a program to run" if @program.nil?
-    @ip = 0
-    until @ip >= @program.length do
-
-     if code == 3
-			 # amplifier is responsible for knowing what to pass in
-			 if @use_phase
-				opcode_3(@phase, p1)
-				@use_phase = false
-			 else
-			  opcode_3(@in, p1)
-		   end		
-      @ip += 2
-     end
-		end
-	end
-end
-
 
 

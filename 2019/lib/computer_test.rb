@@ -83,35 +83,33 @@
 	end
 
 	 def test_amp_phase_1
-		skip
 		 phase_sequence = [4,3,2,1,0]
-
-		input = 0
+		 output = 0
 
 		phase_sequence.each do |p|
-			amplifier = Computer.new
-			amplifier.stdin= [input,p]
-			amplifier.load([3,15,3,16,1002,16,10,16,1,16,15,15,4,15,99,0,0])
-			amplifier.run
-			input = amplifier.diagnostic
+			amp = Computer.new
+			amp.set_in(0)
+		  amp.set_in(p)
+			amp.load([3,15,3,16,1002,16,10,16,1,16,15,15,4,15,99,0,0])
+			amp.run
+			output = amp.get_out
 		end
-		assert_equal 43210, input
+		assert_equal 43210, output
 	 end
 
 	 def test_amp_phase_2
-		skip
 		 phase_sequence = [0,1,2,3,4]
-
-		input = 0
+		 output = 0
 
 		phase_sequence.each do |p|
-			amplifier = Computer.new
-			amplifier.stdin= [input,p]
-			amplifier.load([3,23,3,24,1002,24,10,24,1002,23,-1,23,
+			amp = Computer.new
+			amp.set_in(0)
+			amp.set_in(p)
+			amp.load([3,23,3,24,1002,24,10,24,1002,23,-1,23,
 101,5,23,23,1,24,23,23,4,23,99,0,0])
-			amplifier.run
-			input = amplifier.diagnostic
+			amp.run
+			output = amp.get_out
 		end
-		assert_equal 54321, input
+		assert_equal 54321, output
 	 end
 	end
