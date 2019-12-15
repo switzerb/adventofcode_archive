@@ -10,8 +10,7 @@ for_feedback = [5,6,7,8,9].permutation.to_a
 
 file = File.open(__dir__ + "/input.txt")
 program = file.read
-program = program.split(",")
-program = program.map(&:to_i)
+program = program.split(",").map(&:to_i)
 
 max = 0
 $debug = false
