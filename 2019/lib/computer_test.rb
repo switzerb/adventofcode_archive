@@ -59,27 +59,27 @@
 	end
 
 	def test_opcode_immediate
-		skip
-		computer = Computer.new(8)
-		computer.load([3,3,1108,-1,8,3,4,3,99])
-		computer.run
-		assert_equal 1, computer.diagnostic
+		c = Computer.new
+		c.set_in(8)
+		c.load([3,3,1108,-1,8,3,4,3,99])
+		c.run
+		assert_equal 1, c.get_out
 	end
 
 	def test_jump_zero
-		skip
-		computer = Computer.new(0)
-		computer.load([3,12,6,12,15,1,13,14,13,4,13,99,-1,0,1,9])
-		computer.run
-		assert_equal 0, computer.diagnostic
+		c = Computer.new
+		c.set_in(0)
+		c.load([3,12,6,12,15,1,13,14,13,4,13,99,-1,0,1,9])
+		c.run
+		assert_equal 0, c.get_out
 	end
 
 	def test_jump_nonzero
-		skip
-		computer = Computer.new(10)
-		computer.load([3,12,6,12,15,1,13,14,13,4,13,99,-1,0,1,9])
-		computer.run
-		assert_equal 1, computer.diagnostic
+		c = Computer.new
+		c.set_in(10)
+		c.load([3,12,6,12,15,1,13,14,13,4,13,99,-1,0,1,9])
+		c.run
+		assert_equal 1, c.get_out
 	end
 
 	 def test_amp_phase_1
