@@ -14,6 +14,6 @@ $debug = true
 
 nine = Computer.new
 nine.load(program)
-nine.set_in(1)
+nine.set_in(2)
 nine.run
 pp nine.get_stdout
