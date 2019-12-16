@@ -7,10 +7,15 @@ require 'fiber'
  class Computer
 	 attr_accessor :ip, :program, :stdin, :stdout, :mode
 
+	 POSITION = 0
+	 IMMEDIATE = 1
+	 RELATIVE = 2
+
 	 def initialize
 		 @stdout = []
 		 @stdin = []
 		 @mode = 0
+		 @base = 0
 	 end
 
 	 def load(program)
@@ -30,8 +35,20 @@ require 'fiber'
 		 @stdout.pop
 	 end
 
+	 def get_stdout
+		 @stdout
+	 end
+
 	 def set_out(output)
 		 @stdout << output
+	 end
+
+	 def set_base(base)
+		 @base = base
+	 end
+
+	 def get_base
+		 @base
 	 end
 
 	 def run_with(noun,verb)
@@ -46,14 +63,25 @@ require 'fiber'
 		 mode = @mode % 10
 		 @mode = @mode / 10
 		 increment
-		 @program[temp]
-     mode == 0 ? @program[temp] : temp
+		 case mode
+		  when POSITION then value = @program[temp]
+		  when IMMEDIATE then value = temp
+		  when RELATIVE then value = @program[temp + @base]
+		 end
+		 value.to_i
 	 end
 
 	 def get_address
+		 mode = @mode % 10
+		 @mode = @mode / 10
+
 		 temp = @program[@ip]
 		 increment
-		 temp
+
+		 case mode
+		  when POSITION then temp.to_i
+		  when RELATIVE then temp.to_i + @base
+		 end
 	 end
 
 	 def set_address(address, value)
@@ -69,10 +97,10 @@ require 'fiber'
 		 @ip = 0
 		 until @ip > @program.length do
 			 opcode = @program[@ip]
+			 # binding.pry if opcode == 203
 			 increment
 			 code = opcode % 100
 			 @mode = opcode / 100
-			 #binding.pry
 			 
 			 case code
 			   when 1 then Add.new self
@@ -83,10 +111,11 @@ require 'fiber'
 				 when 6 then JumpIfFalse.new self
 				 when 7 then LessThan.new self
 				 when 8 then Equals.new self
+				 when 9 then Relative.new self
 			 end
 
 			 return @program if code == 99
-			 raise "Opcode invalid." unless (code.between?(1,8) || code == 99)
+			 raise "Opcode invalid." unless (code.between?(1,9) || code == 99)
 	   end
 	 end
 
