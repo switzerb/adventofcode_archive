@@ -35,10 +35,23 @@
       ###.##.####.##.#..##
      INPUT
 
+     ex2 = <<~INPUT
+     .#..#
+     .....
+     #####
+     ....#
+     ...##
+     INPUT
+
      @ex1 = ex1.split("\n").map(&:chars)
+     @ex2 = ex2.split("\n").map(&:chars)
    end
 
    def test_vaporize_1
-     pp @ex1
+     asteroids = Asteroids.new(@ex2)
+     station = Point.new(3,4)
+
+     puts Math.atan2(-2,0)
+
    end
  end
