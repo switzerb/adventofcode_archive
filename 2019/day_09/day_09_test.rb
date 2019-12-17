@@ -10,7 +10,7 @@
     exit 1
   end
 
- class SolverTest < Minitest::Test
+ class Day09Test < Minitest::Test
    def setup
      @day = Solver.new
    end
