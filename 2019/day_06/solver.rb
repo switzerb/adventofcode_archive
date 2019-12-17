@@ -20,7 +20,7 @@ orbits.add_edge "K","L"
 # orbits.write_to_graphic_file('jpg')
 
 #def count_orbits(graph)
-#	graph.dfs_iterator.to_a
+#  graph.dfs_iterator.to_a
 #end
 
 #puts count_orbits(orbits)

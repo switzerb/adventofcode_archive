@@ -12,7 +12,7 @@ puts sif.part_one
 image = sif.part_two
 
 image.each_slice(25) do |line|
-	puts line.join
+  puts line.join
 end
 
 

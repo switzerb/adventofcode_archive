@@ -71,7 +71,7 @@
   def manhattan_distance
     least = 0;
     dists = @intersections.map { |point| point[0].abs + point[1].abs}
-		puts dists
+    puts dists
     dists.min
   end
 

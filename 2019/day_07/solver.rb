@@ -16,14 +16,14 @@ max = 0
 $debug = false
 
 for_feedback.each do |seq|
-	amp = Amplifier.new seq
-	amp.load(program)
-	amp.run
-	boost = amp.to_thrusters
+  amp = Amplifier.new seq
+  amp.load(program)
+  amp.run
+  boost = amp.to_thrusters
 
-	if boost > max
-		max = boost
-	end
+  if boost > max
+    max = boost
+  end
 end
 
 puts "part two: " + max.to_s
@@ -31,14 +31,14 @@ puts "part two: " + max.to_s
 max = 0
 
 for_amps.each do |seq|
-		amp = Amplifier.new seq
-		amp.load(program)
-		amp.run
-		signal = amp.to_thrusters
+    amp = Amplifier.new seq
+    amp.load(program)
+    amp.run
+    signal = amp.to_thrusters
 
-	if signal > max
-		max = signal
-	end
+  if signal > max
+    max = signal
+  end
 end
 
 puts "part one: " + max.to_s

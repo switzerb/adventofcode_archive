@@ -37,14 +37,14 @@ class SolverTest < Minitest::Test
   end
 
   def test_part_1
-		lines = File.readlines(__dir__ + "/input.txt", chomp: true)
+    lines = File.readlines(__dir__ + "/input.txt", chomp: true)
     input = lines.map(&:to_i)
     rocket = Rocket.new(input)
    assert_equal 3550236, rocket.part_one
   end
 
   def test_part_2
-		lines = File.readlines(__dir__ + "/input.txt", chomp: true)
+    lines = File.readlines(__dir__ + "/input.txt", chomp: true)
     input = lines.map(&:to_i)
     rocket = Rocket.new(input)
     assert_equal 5322455, rocket.part_two
