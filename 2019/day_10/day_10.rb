@@ -1,11 +1,6 @@
 #!/usr/bin/env ruby
 
  class Asteroids
-  
-   def play
-
-   end
-
  end
 
  class Grid
@@ -45,9 +40,15 @@
    end
 
    def hash
+     @x + @y
    end
 
-   def eql?
+   def eql?(other)
+     other.class == self.class && other.state == self.state
+   end
+   
+   def state
+     self.instance_variables.map { |variable| self.instance_variable_get variable }
    end
 
  end

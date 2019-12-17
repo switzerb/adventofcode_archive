@@ -1,26 +1,39 @@
 require_relative 'day_10'
+require 'set'
 
-# puts Math.atan2(3,2)
+input = File.readlines('input.txt', chomp: true).map(&:chars)
 
-def cartesian(magnitude, angle)
-  [magnitude*Math.cos(angle), magnitude*Math.sin(angle)]
+example = ".#..#\n.....\n#####\n....#\n...##".split("\n").map(&:chars)
+
+asteroids = Array.new
+
+input.map.with_index do |r,i|
+	r.map.with_index do |c,j|
+		p = Point.new(j,i)
+		asteroids << p if c == "#"
+	end
 end
 
-def polar(x,y)
-  return Math.hypot(y,x), Math.atan2(y,x)
+# pp asteroids
+
+hist = Hash.new(0)
+
+asteroids.each do |a|
+	puts "current: " + a.to_s
+	slopes = Set.new
+	asteroids.each do |o|
+		if o != a
+			slopes << Math.atan2(o.y - a.y, o.x - a.x)
+		end
+	end
+	hist[a] = slopes.length
+	puts ""
 end
 
-#puts cartesian(3.61, Math.atan2(3,2))
+max = 0
 
-#puts "polar #{polar(3,4)}"
-#puts "polar #{polar(2,2)}"
-#puts "polar #{polar(1,0)}"
+hist.each do |k,v|
+	max = v if v > max	
+end
 
-puts Math.atan2(-2,-1)
-puts Math.atan2(-4,-2)
-
-first = ".#..#.....#####....#...##"
-
-grid = Grid.new(5)
-grid.draw(first)
-pp grid.to_s
+puts max
