@@ -1,30 +1,42 @@
 #!/usr/bin/env ruby
 
  class Asteroids
- end
+   attr_accessor :asteroids
 
- class Grid
+   def initialize(input)
+     @asteroids = Array.new
 
-   def initialize(width)
-     @grid = Hash.new
-     @width = width
-   end
-
-   def draw(input)
-     chs = input.chars
-     chs.each_with_index do |c,i|
-       point = Point.new(i, 0)
-       @grid[point] = c
-     end
-     @grid
-   end
-
-   def to_s
-     @grid.map do |k,v|
-        "#{k}:#{v}"
+     input.map.with_index do |r,i|
+       r.map.with_index do |c,j|
+         p = Point.new(j,i)
+         @asteroids << p if c == "#"
+       end
      end
    end
+
+   def line_of_sight
+     hist = Hash.new(0)
+
+     @asteroids.each do |a|
+       slopes = Set.new
+       @asteroids.each do |o|
+         if o != a
+           slopes << Math.atan2(o.y - a.y, o.x - a.x)
+         end
+       end
+       hist[a] = slopes.length
+     end
+
+     max = 0
+
+     hist.each do |k,v|
+       max = v if v > max	
+     end
+     max
+   end
+   
  end
+
 
  class Point
    attr_accessor :x, :y
