@@ -1,14 +1,14 @@
 #!/usr/bin/env ruby
 
  class Asteroids
-   attr_accessor :asteroids
+    attr_accessor :asteroids, :station
 
    def initialize(input)
      @asteroids = Array.new
 
      input.map.with_index do |r,i|
        r.map.with_index do |c,j|
-         p = Point.new(j,i)
+         p = Asteroid.new(j,i)
          @asteroids << p if c == "#"
        end
      end
@@ -30,15 +30,48 @@
      max = 0
 
      hist.each do |k,v|
-       max = v if v > max	
+       if v > max	
+         max = v
+         @station = k
+       end
      end
      max
+   end
+
+   def targets
+     targets = @asteroids.map do |a|
+       l = LaserTargets.new(@station)
+       l.asteroid=(a)
+       l
+     end
+     targets
    end
    
  end
 
+ class LaserTargets
+   include Comparable
+   attr_accessor :a
+   alias_method :asteroid=, :a=
 
- class Point
+   def initialize(station)
+     @station = station
+   end
+
+   def<=>(o)
+     return nil unless o.a.is_a? Asteroid
+     return 0 if self.a == o.a
+     this = Math.atan2(@station.y - self.a.y, @station.x - self.a.x)
+     that = Math.atan2(@station.y - o.a.y, @station.x - o.a.x)
+     return -1 if this < that
+     return 1 if this > that
+     return 0
+   end
+
+ end
+
+
+ class Asteroid
    attr_accessor :x, :y
    alias_method :==, :eql?
 

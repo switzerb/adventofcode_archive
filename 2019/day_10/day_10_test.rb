@@ -49,7 +49,7 @@
 
    def test_vaporize_1
      asteroids = Asteroids.new(@ex2)
-     station = Point.new(3,4)
+     station = Asteroid.new(3,4)
 
      puts Math.atan2(-2,0)
 
