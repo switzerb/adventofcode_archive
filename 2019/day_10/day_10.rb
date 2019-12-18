@@ -58,13 +58,39 @@
      @station = station
    end
 
+   def offset_x(x)
+     @station.x - x
+   end
+
+   def offset_y(y)
+     @station.y - y
+   end
+
    def<=>(o)
      return nil unless o.a.is_a? Asteroid
      return 0 if self.a == o.a
-     this = Math.atan2(@station.y - self.a.y, @station.x - self.a.x)
-     that = Math.atan2(@station.y - o.a.y, @station.x - o.a.x)
-     return -1 if this < that
-     return 1 if this > that
+     sy = offset_y(self.a.y)
+     sx = offset_x(self.a.x)
+     oy = offset_y(o.a.y)
+     ox = offset_x(o.a.x)
+
+     st = Math.atan2(sy, sx)
+     ot = Math.atan2(oy, ox)
+     sm = Math.hypot(sy, sx)
+     om = Math.hypot(oy, ox)
+     
+     # I am going to need to look for st and ot that are between
+     # 0 and 1.57 and make them first, or something like that here
+     # for the offset
+
+     # also the magnitude thing is killing me
+
+     if st < ot
+       return -1
+     elsif st > ot
+       return 1
+     end
+
      return 0
    end
 
