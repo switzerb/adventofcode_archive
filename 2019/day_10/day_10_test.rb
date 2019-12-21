@@ -62,9 +62,26 @@
      asteroids = Asteroids.new(@ex2)
      targets = asteroids.targets
      sorted = targets.sort
-     puts sorted
      assert_equal "[8,1]", sorted[0].print
      assert_equal "[9,0]", sorted[1].print
+   end
+
+   def test_laser_3
+     asteroids = Asteroids.new(@ex1)
+     targets = asteroids.targets
+     sorted = targets.sort
+     #puts sorted
+     assert_equal sorted[0].print, "[11,12]"
+     assert_equal sorted[1].print,   "[12,1]"
+     assert_equal sorted[2].print,   "[12,2]"
+     assert_equal sorted[9].print,  "[12,8]"
+     assert_equal sorted[19].print,  "[16,0]"
+     assert_equal sorted[49].print,  "[16,9]"
+     assert_equal sorted[99].print, "[10,16]"
+     assert_equal sorted[198].print, "[9,6]"
+     assert_equal sorted[199].print, "[8,2]"
+     assert_equal sorted[200].print, "[10,9]"
+     assert_equal sorted[298].print, "[11,1]"
    end
 
  end

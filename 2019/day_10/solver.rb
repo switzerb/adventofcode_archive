@@ -1,21 +1,12 @@
 require_relative 'day_10'
 require 'set'
 
-#input = File.readlines('input.txt', chomp: true).map(&:chars)
+input = File.readlines('input.txt', chomp: true).map(&:chars)
 
-     ex2 = <<~INPUT
-     .#..#
-     .....
-     #####
-     ....#
-     ...##
-     INPUT
+asteroids = Asteroids.new(input)
+puts "Part One: " + asteroids.line_of_sight.to_s
+# puts asteroids.station
 
-     input = ex2.split("\n").map(&:chars)
-
-     ast = Asteroids.new(input)
-puts "Part One: " + ast.line_of_sight.to_s
-puts ast.station
-
-targets = ast.targets
-pp targets.sort
+targets = asteroids.targets
+sorted = targets.sort
+puts "Part Two:" + sorted[199].print

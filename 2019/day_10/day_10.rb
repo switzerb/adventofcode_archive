@@ -65,18 +65,8 @@ require 'set'
      end
 
      targets.map do |t|
-       if t.theta >= 0 && t.theta < PI/2
-         t.quadrant= 2
-       end
-       if t.theta >= PI / 2 && t.theta < PI
-         t.quadrant= 3
-       end
-       if t.theta >= -PI && t.theta < -PI/2
-         t.quadrant= 4
+       if t.theta > -PI && t.theta < -PI/2
          t.theta= t.theta + (PI * 2)
-       end
-       if t.theta >= -PI/2 && t.theta < 0
-         t.quadrant= 1
        end
      end
      targets
@@ -93,11 +83,11 @@ require 'set'
      return nil unless o.a.is_a? Asteroid
      return 0 if self.a == o.a
      
-     return 1 if self.theta > o.theta
-     return -1 if self.theta < o.theta
-
      return 1 if  self.order > o.order
      return -1 if self.order < o.order
+     
+     return 1 if self.theta > o.theta
+     return -1 if self.theta < o.theta
 
      return 0
    end
