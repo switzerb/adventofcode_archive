@@ -4,6 +4,8 @@ require 'set'
  class Asteroids
     attr_accessor :asteroids, :station
 
+    PI = Math::PI
+
    def initialize(input)
      @asteroids = Array.new
 
@@ -16,12 +18,12 @@ require 'set'
      end
    end
 
-   def theta(asteroid, other)
-     Math.atan2(other.y - asteroid.y, other.x - asteroid.x)
+   def theta(asteroid, station)
+     Math.atan2(asteroid.y - station.y, asteroid.x - station.x)
    end
 
-   def r(asteroid, other)
-     Math.hypot(other.y - asteroid.y, other.x - asteroid.x)
+   def r(asteroid, station)
+     Math.hypot(asteroid.y - station.y, asteroid.x - station.x)
    end
 
    def line_of_sight
@@ -49,6 +51,7 @@ require 'set'
        .select { |a| a != @station }
        .map do |a|
         l = LaserTargets.new
+        offset = Asteroid.new(a.x - @station.x, a.y - @station.y)
         l.asteroid=(a)
         l.theta=(theta(a,@station))
         l.r=(r(a,@station))
@@ -60,6 +63,22 @@ require 'set'
           line.order = i
         end
      end
+
+     targets.map do |t|
+       if t.theta >= 0 && t.theta < PI/2
+         t.quadrant= 2
+       end
+       if t.theta >= PI / 2 && t.theta < PI
+         t.quadrant= 3
+       end
+       if t.theta >= -PI && t.theta < -PI/2
+         t.quadrant= 4
+         t.theta= t.theta + (PI * 2)
+       end
+       if t.theta >= -PI/2 && t.theta < 0
+         t.quadrant= 1
+       end
+     end
      targets
    end
    
@@ -67,24 +86,28 @@ require 'set'
 
  class LaserTargets
    include Comparable
-   attr_accessor :a, :theta, :r, :order
+   attr_accessor :a, :theta, :r, :order, :quadrant
    alias_method :asteroid=, :a=
 
    def<=>(o)
      return nil unless o.a.is_a? Asteroid
      return 0 if self.a == o.a
      
-     if st < ot
-       return -1
-     elsif st > ot
-       return 1
-     end
+     return 1 if self.theta > o.theta
+     return -1 if self.theta < o.theta
+
+     return 1 if  self.order > o.order
+     return -1 if self.order < o.order
 
      return 0
    end
 
    def to_s
-     "coords: [#{a.x}, #{a.y}], theta: #{theta}, r: #{r}, order: #{order}"
+     "coords: [#{a.x}, #{a.y}], theta: #{theta}, order: #{order}, Q: #{quadrant}"
+   end
+
+   def print
+     "[#{a.x},#{a.y}]"
    end
  end
 
@@ -99,7 +122,7 @@ require 'set'
    end
 
    def to_s
-    "[#{@x}, #{@y}]"
+    "[#{@x},#{@y}]"
    end
 
    def hash

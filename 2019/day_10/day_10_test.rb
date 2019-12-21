@@ -36,11 +36,11 @@
      INPUT
 
      ex2 = <<~INPUT
-     .#..#
-     .....
-     #####
-     ....#
-     ...##
+     .#....#####...#..
+     ##...##.#####..##
+     ##...#...#.#####.
+     ..#.....#...###..
+     ..#.#.....#....##
      INPUT
 
      @input = File.readlines(__dir__ + "/input.txt", chomp:true).map(&:chars)
@@ -53,16 +53,18 @@
      assert_equal 296, asteroids.line_of_sight
    end
 
-   def test_vaporize_1
-     asteroids = Asteroids.new(@ex2)
-     station = Asteroid.new(3,4)
-
-     puts Math.atan2(-2,0)
-
-   end
-
    def test_lasertargets_1
      asteroids = Asteroids.new(@ex2)
-     puts asteroids.targets
+     assert_equal "[8,3]", asteroids.station.to_s 
    end
+
+   def test_lasertragets_2
+     asteroids = Asteroids.new(@ex2)
+     targets = asteroids.targets
+     sorted = targets.sort
+     puts sorted
+     assert_equal "[8,1]", sorted[0].print
+     assert_equal "[9,0]", sorted[1].print
+   end
+
  end
