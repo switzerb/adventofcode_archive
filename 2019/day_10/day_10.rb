@@ -1,4 +1,5 @@
 #!/usr/bin/env ruby
+require 'set'
 
  class Asteroids
     attr_accessor :asteroids, :station
@@ -8,23 +9,28 @@
 
      input.map.with_index do |r,i|
        r.map.with_index do |c,j|
-         p = Asteroid.new(j,i)
-         @asteroids << p if c == "#"
+         a = Asteroid.new(j,i)
+         @asteroids << a if c == "#"
        end
+       line_of_sight
      end
+   end
+
+   def theta(asteroid, other)
+     Math.atan2(other.y - asteroid.y, other.x - asteroid.x)
+   end
+
+   def r(asteroid, other)
+     Math.hypot(other.y - asteroid.y, other.x - asteroid.x)
    end
 
    def line_of_sight
      hist = Hash.new(0)
 
-     @asteroids.each do |a|
-       slopes = Set.new
-       @asteroids.each do |o|
-         if o != a
-           slopes << Math.atan2(o.y - a.y, o.x - a.x)
-         end
-       end
-       hist[a] = slopes.length
+     @asteroids.map do |a|
+       thetas = Set.new
+       @asteroids.map { |o| thetas << theta(a,o) if o != a }
+       hist[a] = thetas.length
      end
 
      max = 0
@@ -39,10 +45,20 @@
    end
 
    def targets
-     targets = @asteroids.map do |a|
-       l = LaserTargets.new(@station)
-       l.asteroid=(a)
-       l
+     targets = @asteroids
+       .select { |a| a != @station }
+       .map do |a|
+        l = LaserTargets.new
+        l.asteroid=(a)
+        l.theta=(theta(a,@station))
+        l.r=(r(a,@station))
+        l
+      end
+
+     targets.group_by { |t| t.theta }.each do |theta,lined|
+        lined.sort { |a,b| a.r - b.r }.each_with_index do |line, i|
+          line.order = i
+        end
      end
      targets
    end
@@ -51,40 +67,13 @@
 
  class LaserTargets
    include Comparable
-   attr_accessor :a
+   attr_accessor :a, :theta, :r, :order
    alias_method :asteroid=, :a=
-
-   def initialize(station)
-     @station = station
-   end
-
-   def offset_x(x)
-     @station.x - x
-   end
-
-   def offset_y(y)
-     @station.y - y
-   end
 
    def<=>(o)
      return nil unless o.a.is_a? Asteroid
      return 0 if self.a == o.a
-     sy = offset_y(self.a.y)
-     sx = offset_x(self.a.x)
-     oy = offset_y(o.a.y)
-     ox = offset_x(o.a.x)
-
-     st = Math.atan2(sy, sx)
-     ot = Math.atan2(oy, ox)
-     sm = Math.hypot(sy, sx)
-     om = Math.hypot(oy, ox)
      
-     # I am going to need to look for st and ot that are between
-     # 0 and 1.57 and make them first, or something like that here
-     # for the offset
-
-     # also the magnitude thing is killing me
-
      if st < ot
        return -1
      elsif st > ot
@@ -94,6 +83,9 @@
      return 0
    end
 
+   def to_s
+     "coords: [#{a.x}, #{a.y}], theta: #{theta}, r: #{r}, order: #{order}"
+   end
  end
 
 
