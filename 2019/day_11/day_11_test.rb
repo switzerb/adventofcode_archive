@@ -13,9 +13,9 @@
  class Day11Test < Minitest::Test
    def setup
      file = File.open(__dir__+"/input.txt")
-     input = file.read
+     @input = file.read
      @robot = PaintRobot.new
-     @robot.load(input)
+     @robot.load(@input)
    end
 
    def test_direction_1
@@ -86,6 +86,13 @@
    def test_go
      @robot.go
      assert_equal @robot.hull.size, 2211
+   end
+
+   def test_visuals
+     robot = PaintRobot.new(1)
+     robot.load(@input)
+     robot.go
+     print robot.show_hull
    end
 
  end

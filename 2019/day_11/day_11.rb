@@ -10,11 +10,11 @@ require 'pry'
    BLACK = 0
    WHITE = 1
 
-  def initialize    
+  def initialize(color=BLACK)    
     @computer = Computer.new
     @hull = Hash.new(BLACK) #sparse map
     @here = Point.new(0,0)
-    paint(BLACK)
+    paint(color)
     @dir = :north
     @verbose = false
   end
@@ -69,9 +69,14 @@ require 'pry'
   end
 
   def show_hull
-    map = ""
-    (-30..30).each do |x|
-      (-30..30).each do |y|
+    max_x = @hull.keys.map { |k| k.x }.max
+    min_x = @hull.keys.map { |k| k.x }.min
+    max_y = @hull.keys.map { |k| k.y }.max
+    min_y = @hull.keys.map { |k| k.y }.min
+
+    map = "\n\n"
+    (min_y..max_y).each do |y|
+      (min_x..max_x).each do |x|
         color = @hull[Point.new(x,y)]
         if !@hull.key? Point.new(x,y)
           map += " " 
@@ -83,10 +88,8 @@ require 'pry'
       end
       map += "\n"
     end
-    map
+    map + "\n"
   end
-
 end
 
 $debug = false
-# I guessed 1268
