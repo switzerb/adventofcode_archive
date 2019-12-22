@@ -4,6 +4,7 @@ require 'pry'
 require_relative 'intcode'
 require 'fiber'
 
+
  class Computer
    attr_accessor :ip, :program, :stdin, :stdout, :mode
 
