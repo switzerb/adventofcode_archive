@@ -1,27 +1,31 @@
 
  class Point
-   attr_accessor :x, :y
+   attr_accessor :x, :y, :dir
    alias_method :==, :eql?
 
-   def initialize(x,y)
+   def initialize(x=0,y=0)
      @x = x
      @y = y
    end
 
-   def up(steps=1)
-     @y -= steps
+   def step(dir, n=1)
+     send(dir, n)
    end
 
-   def down(steps=1)
-     @y += steps
+   def north(n)
+     Point.new(@x, @y - n)
    end
 
-   def left(steps=1)
-     @x -= steps
+   def south(n)
+     Point.new(@x, @y + n)
    end
 
-   def right(steps=1)
-     @x += steps
+   def west(n)
+     Point.new(@x - n, @y)
+   end
+
+   def east(n)
+     Point.new(@x + n, @y)
    end
 
    def to_s
@@ -33,11 +37,13 @@
    end
 
    def eql?(other)
-     other.class == self.class && other.state == self.state
+     other.x == self.x && other.y == self.y
    end
-   
-   def state
-     self.instance_variables.map { |variable| self.instance_variable_get variable }
+
+   def <=>(other)
+     return self.x - other.x unless self.x == other.x
+     return self.y - other.y unless self.y == other.y
+     return 0
    end
 
  end

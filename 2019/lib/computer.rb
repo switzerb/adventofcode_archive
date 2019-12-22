@@ -29,7 +29,7 @@ require 'fiber'
    end
 
    def get_in
-     Fiber.yield if @stdin.empty?
+     Fiber.yield while @stdin.empty?
      @stdin.shift
    end
 
@@ -38,7 +38,7 @@ require 'fiber'
    end
 
    def get_out
-     @stdout.pop
+     @stdout.shift
    end
 
    def get_stdout
@@ -103,7 +103,6 @@ require 'fiber'
      @ip = 0
      until @ip > @program.length do
        opcode = @program[@ip]
-       # binding.pry if opcode == 203
        increment
        code = opcode % 100
        @mode = opcode / 100

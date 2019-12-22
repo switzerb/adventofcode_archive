@@ -1,56 +1,92 @@
 #!/usr/bin/env ruby
 require_relative '../lib/computer'
+require_relative '../lib/point'
 require 'fiber'
+require 'pry'
 
  class PaintRobot
-   attr_accessor :robot, :brain, :hull, :position, :dir
+   attr_accessor :computer, :brain, :hull, :here, :dir, :verbose
+
+   BLACK = 0
+   WHITE = 1
 
   def initialize    
-    @robot = Computer.new
-
-    # state of hull grid colors
-    # position (0,0)
-    # direction (up)
+    @computer = Computer.new
+    @hull = Hash.new(BLACK) #sparse map
+    @here = Point.new(0,0)
+    paint(BLACK)
+    @dir = :north
+    @verbose = false
   end
 
   def load(program)
-    @robot.load(program)
-    @brain = Fiber.new { @robot.run }
+    @computer.load(program)
+    @brain = Fiber.new { @computer.run }
+  end
+
+  def turn_and_step(rotate)
+    turn(rotate)
+    step(@dir)
+  end
+
+  def turn(rotate)
+     case
+       when @dir == :north && rotate == 0 then face(:west)
+       when @dir == :north && rotate == 1 then face(:east)
+       when @dir == :south && rotate == 0 then face(:east)
+       when @dir == :south && rotate == 1 then face(:west)
+       when @dir == :east && rotate == 0 then face(:north)
+       when @dir == :east && rotate == 1 then face(:south)
+       when @dir == :west && rotate == 0 then face(:south)
+       when @dir == :west && rotate == 1 then face(:north)
+     end
+  end
+
+  def face(dir)
+    @dir = dir
+  end
+
+  def step(dir)
+    @here = @here.step(dir,1)
+  end
+
+  def paint(color)
+    @hull[@here] = color
   end
 
   def go
-    input 0
-    @brain.resume
-    output
+    loop do
+      photo
+      @brain.resume
+      paint(@computer.get_out)
+      turn_and_step(@computer.get_out)
+      break unless @brain.alive?
+    end
   end
 
-  def output
-    puts @robot.stdout
+  def photo
+    @computer.set_in @hull[@here]
   end
 
-  def input(n)
-    @robot.set_in(n)
+  def show_hull
+    map = ""
+    (-30..30).each do |x|
+      (-30..30).each do |y|
+        color = @hull[Point.new(x,y)]
+        if !@hull.key? Point.new(x,y)
+          map += " " 
+        elsif color == 0
+          map += "."
+        elsif color == 1
+          map += "#"
+        end
+      end
+      map += "\n"
+    end
+    map
   end
 
- end
+end
 
-$debug = true
-
-file = File.open(__dir__ + "/input.txt")
-input = file.read
-robot = PaintRobot.new
-robot.load(input)
-puts robot.go
-
-
-# do while alive?
-#   what color did the robot paint?
-#   change the hull map to be that color
-#   what direction is the robot turned?
-#   step forward one
-#   read the color under the robot
-#   input that shit from the "camera"
-#   resume the fiber
-
-# point takes a direction and a magnitude
-
+$debug = false
+# I guessed 1268
