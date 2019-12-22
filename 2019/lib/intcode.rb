@@ -1,3 +1,5 @@
+$debug = false
+
 class Intcode
   def initialize(c)
     execute(c) if c

@@ -19,7 +19,12 @@ require 'fiber'
    end
 
    def load(program)
+     program = parse(program) unless program.is_a? Array
      @program = program.dup
+   end
+
+   def parse(input)
+     input.split(",").map(&:to_i)
    end
 
    def get_in

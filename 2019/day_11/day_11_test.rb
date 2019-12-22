@@ -10,12 +10,11 @@
     exit 1
   end
 
- class SolverTest < Minitest::Test
+ class Day11Test < Minitest::Test
    def setup
-     @day = Solver.new
+     program = File.readlines(__dir__ + "/input.txt")
+     puts program
+     @robot = PaintRobot.new(program)
    end
 
-   def test_hello
-     assert_equal "hello, world!", @day.hello
-   end
  end
