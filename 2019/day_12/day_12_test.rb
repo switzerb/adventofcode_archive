@@ -12,11 +12,10 @@
 
  class Day12Test < Minitest::Test
    def setup
-     raise "HEY FUCKASS, THESE AREN'T MOONS"
-     @io = { :name => "Io", :map => [4,12,13] }
-     @europa = { :name => "Europa", :map => [-9,14,-3] }
-     @ganymede = { :name => "Ganymede", :map => [-7,-1,2] }
-     @callisto = { :name => "Callisto", :map => [-11,17,-1] }
+     @io = Moon.new("Io", [4,12,13])
+     @europa = Moon.new("Europa",[-9,14,-3])
+     @ganymede = Moon.new("Ganymede", [-7,-1,2])
+     @callisto = Moon.new("Callisto", [-11,17,-1])
    end
 
    def test_moon_initialize
@@ -52,10 +51,44 @@
      assert_equal 36, moon.total_energy
    end
 
-   def test_system_init
+   def test_system_step_1
+     io = Moon.new("Io", [-1,0,2])
+     europa = Moon.new("Europa",[2,-10,-7])
+     ganymede = Moon.new("Ganymede", [4,-8,8])
+     callisto = Moon.new("Callisto", [3,5,-1])
+     moons = [io, europa, ganymede, callisto]
+     system = System.new(moons)
+     system.step
+     assert_equal "Io pos=<x=2, y=-1, z=1>, vel=<x=3, y=-1, z=-1>", system.moons[0].to_s
+     assert_equal "Europa pos=<x=3, y=-7, z=-4>, vel=<x=1, y=3, z=3>", system.moons[1].to_s
+     assert_equal "Ganymede pos=<x=1, y=-7, z=5>, vel=<x=-3, y=1, z=-3>", system.moons[2].to_s
+     assert_equal "Callisto pos=<x=2, y=2, z=0>, vel=<x=-1, y=-3, z=1>", system.moons[3].to_s
+   end
+
+   def test_system_step_10
+     io = Moon.new("Io", [-1,0,2])
+     europa = Moon.new("Europa",[2,-10,-7])
+     ganymede = Moon.new("Ganymede", [4,-8,8])
+     callisto = Moon.new("Callisto", [3,5,-1])
+     moons = [io, europa, ganymede, callisto]
+     system = System.new(moons)
+     10.times.each do
+       system.step
+     end
+     assert_equal "Io pos=<x=2, y=1, z=-3>, vel=<x=-3, y=-2, z=1>", system.moons[0].to_s
+     assert_equal "Europa pos=<x=1, y=-8, z=0>, vel=<x=-1, y=1, z=3>", system.moons[1].to_s
+     assert_equal "Ganymede pos=<x=3, y=-6, z=1>, vel=<x=3, y=2, z=-3>", system.moons[2].to_s
+     assert_equal "Callisto pos=<x=2, y=0, z=4>, vel=<x=1, y=-1, z=-1>", system.moons[3].to_s
+     
+     assert_equal 179, system.total_energy
+   end
+
+   def test_part_one
      moons = [@io, @europa, @ganymede, @callisto]
      system = System.new(moons)
-     pp system.step
-     #pp system
+     1000.times.each do
+       system.step
+     end
+     assert_equal 5350, system.total_energy
    end
  end

@@ -10,12 +10,22 @@ require 'pry'
    end
 
    def step
-     @moons.permutation(2).to_a.map do |pair|
-       moon1 = pair[0]
-       moon2 = pair[1]
-       moon1.apply_gravity(moon2)
-       moon2.apply_gravity(moon1)
+     gravity
+     velocity
+   end
+
+   def total_energy
+     @moons.inject(0) { |sum,m| sum + m.total_energy }
+   end
+
+   def gravity
+     @moons.permutation(2).to_a.map do |m|
+       m[0].apply_gravity m[1]
      end
+   end
+
+   def velocity
+     @moons.map(&:apply_velocity)
    end
 
  end
@@ -25,7 +35,7 @@ require 'pry'
 
   X = 0
   Y = 1
-  Z = 3
+  Z = 2
 
   def initialize(name, map)
     @name = name
@@ -61,6 +71,6 @@ require 'pry'
   end
 
   def to_s
-    "#{name} pos=<x=#{@pos[X]}, y=#{@pos[Y]}, z=#{@pos[Z]}>, vel=<x=#{@vel[X]}, y=,#{@vel[Y]}, z=#{@vel[Z]}>"
+    "#{name} pos=<x=#{@pos[X]}, y=#{@pos[Y]}, z=#{@pos[Z]}>, vel=<x=#{@vel[X]}, y=#{@vel[Y]}, z=#{@vel[Z]}>"
   end
  end
