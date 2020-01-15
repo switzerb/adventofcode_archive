@@ -16,18 +16,37 @@ class Arcade
     @computer = Computer.new
     @computer.load(program)
     @screen = Hash.new(0)
+    @score = 0
   end
 
-  def boot
-    @computer.run
-    instructions = @computer.stdout
-    @stream = instructions.each_slice(3)
+  def freeplay
+    @computer.set_address(0,2)
+    play
   end
 
-  def draw
-    @stream.each do |item|
-      p = Point.new(item[0], item[1])
-      @screen[p] = item[2]
+  def play
+    game = Fiber.new { @computer.run }
+    game.resume
+    while game.alive?
+      tick
+      puts draw
+      move = gets.chomp
+      puts move
+      @computer.set_in move
+      game.resume
+    end
+  end
+
+  def tick
+    output = @computer.stdout
+    squares = output.each_slice(3)
+    squares.each do |square|
+      x,y,v = square
+      if x == -1 && y == 0
+        @score = v
+      else
+        @screen[Point.new(x,y)] = v
+      end
     end
   end
 
@@ -37,9 +56,12 @@ class Arcade
     filtered.length
   end
 
-  def print
+  def draw
     level = 0
     p = "\n\n"
+    p += "SCORE: "
+    p += @score.to_s
+    p += "\n\n"
     @screen.each do |k,type|
       if k.y > level
         p += "\n"

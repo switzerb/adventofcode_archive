@@ -57,6 +57,10 @@ require 'fiber'
      @base
    end
 
+   def set_address(index, value)
+     @program[index] = value
+   end
+
    def run_with(noun,verb)
      @program[1] = noun
      @program[2] = verb

@@ -18,11 +18,15 @@
      @arcade = Arcade.new(program)
    end
 
-   def test_boot
-     @arcade.boot
-     @arcade.draw
-     puts @arcade.print
-     puts @arcade.block_count
+   def test_part_one
+     skip
+     @arcade.play
+     puts @arcade.draw
+     puts "part one:" + @arcade.block_count.to_s
+   end
+
+   def test_freeplay
+     @arcade.freeplay
    end
 
  end
