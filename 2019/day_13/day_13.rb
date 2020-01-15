@@ -30,11 +30,16 @@ class Arcade
     while game.alive?
       tick
       puts draw
-      move = gets.chomp
-      puts move
+      move = mover(gets.chomp)
       @computer.set_in move
       game.resume
     end
+  end
+
+  def mover(input)
+    return -1 if input == "a"
+    return 1 if input == "d"
+    return 0
   end
 
   def tick
