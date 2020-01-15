@@ -30,10 +30,21 @@ class Arcade
     while game.alive?
       tick
       puts draw
-      move = mover(gets.chomp)
-      @computer.set_in move
+      # move = mover(gets.chomp)
+      @computer.set_in move_paddle
       game.resume
     end
+    tick
+    puts "FINAL" + draw
+  end
+
+  def move_paddle
+    bx = @ball.x
+    px = @paddle.x
+    
+    return 1 if bx > px
+    return -1 if bx < px
+    return 0
   end
 
   def mover(input)
@@ -75,9 +86,13 @@ class Arcade
       case type
       when 0 then p += " "
       when 1 then p += "#"
-      when 2 then p += "X"
-      when 3 then p += "_"
-      when 4 then p += "O"
+      when 2 then p += "="
+      when 3 
+        p += "_"
+        @paddle = k
+      when 4 
+        p += "O"
+        @ball = k
       else p += "~"
       end
     end
